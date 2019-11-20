@@ -1,0 +1,18 @@
+body {
+    background-color: black;
+    color: yellow;
+}
+
+$primary: darken(#428bca, 20%);
+$theme-colors:(
+        "primaire": black,
+        "yell": yellow
+);
+
+$colors:(
+        "primaire": black,
+        "yell": yellow,
+        "txt": white
+);
+
+
