@@ -1,6 +1,7 @@
+@import '~bootstrap/scss/bootstrap';
+
 body {
     background-color: black;
-    color: yellow;
 }
 
 $primary: darken(#428bca, 20%);
@@ -16,3 +17,10 @@ $colors:(
 );
 
 
+.color-yell {
+    color: yellow;
+}
+
+.color-whrite {
+    color: white;
+}

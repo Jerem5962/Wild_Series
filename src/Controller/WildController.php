@@ -2,6 +2,7 @@
 // src/Controller/WildController.php
 namespace App\Controller;
 
+use App\Entity\Program;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,9 +14,19 @@ class WildController extends AbstractController
      */
     public function index() :Response
     {
-        return $this->render('wild/index.html.twig', [
-            'website' => 'Wild Séries',
-        ]);
+        $programs = $this->getDoctrine()
+            ->getRepository(Program::class)
+            ->findAll();
+
+        if (!$programs) {
+            throw $this->createNotFoundException(
+                'No program found in program\'s table.'
+            );
+        }
+        return $this->render(
+            'wild/index.html.twig', [
+            'programs' => $programs,]
+        );
     }
 
     /**
