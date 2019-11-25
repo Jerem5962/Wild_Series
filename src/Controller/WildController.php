@@ -2,8 +2,12 @@
 // src/Controller/WildController.php
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Program;
+use App\Repository\CategoryRepository;
+use App\Repository\ProgramRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -30,18 +34,64 @@ class WildController extends AbstractController
     }
 
     /**
-     * @Route("/wild/show/{slug<[a-z0-9-]+>?Aucune séries selectionées, veuillez choisir une série}", name="wild_show")
-     * @param $slug
+     * Getting a program with a formatted slug for title
+     *
+     * @param string $slug The slugger
+     * @Route("/wild/show/{slug<^[a-z0-9-]+$>}", defaults={"slug" = null}, name="show")
      * @return Response
      */
-    public function show($slug): Response
+    public function show(?string $slug):Response
     {
-        $slug = ucwords(str_replace("-", " ", $slug)) ;
+        if (!$slug) {
+            throw $this
+                ->createNotFoundException('No slug has been sent to find a program in program\'s table.');
+        }
+        $slug = preg_replace(
+            '/-/',
+            ' ', ucwords(trim(strip_tags($slug)), "-")
+        );
+        $program = $this->getDoctrine()
+            ->getRepository(Program::class)
+            ->findOneBy(['title' => mb_strtolower($slug)]);
+        if (!$program) {
+            throw $this->createNotFoundException(
+                'No program with '.$slug.' title, found in program\'s table.'
+            );
+        }
 
         return $this->render('wild/show.html.twig', [
-            'text' => $slug
+            'program' => $program,
+            'slug'  => $slug,
         ]);
     }
+
+    /**
+     * @param string $categoryName
+     * @Route("/category/{categoryName}", name="show_category")
+     * @return Response
+     */
+    public function showByCategory(string $categoryName): Response
+    {
+        $category = $this->getDoctrine()
+            ->getManager()
+            ->getRepository(Category::class)
+            ->findOneBy(
+                    ['name' => $categoryName]);
+
+        $categoryId = $category->getId();
+
+        $movies = $this->getDoctrine()
+            ->getManager()
+            ->getRepository(Program::class)
+            ->findBy(['category' => $categoryId],
+                    ['id' => 'DESC'],
+                    3
+                );
+        return $this->render('wild/category.html.twig', [
+            'movies' => $movies
+        ]);
+    }
+
 
     public function new(): Response
     {
