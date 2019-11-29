@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<h1 class="color-yell text-uppercase text-center">{{ program.title }}</h1>
+    <div class="row">
+        <div class="col-12 text-center">
+            <img src="{{ program.poster }}" alt="">
+            <p class="col-4 text-center m-auto pt-3 color-whrite">Résumé: {{ program.summary }}</p>
+            <ul class="text-center mt-4">
+                {% for saison in seasons %}
+                <li class="text-decoration-none list-unstyled text-center"><a class="color-yell" href="http://localhost:8000/wild/program/walking-dead/{{ saison.id }}">saison {{ saison.num }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
