@@ -130,10 +130,15 @@ class WildController extends AbstractController
             ->getRepository(Saison::class)
             ->findBy(['program' => $program_id]);
 
+        $title = preg_replace(
+            '/ /',
+            '-', strtolower($slug)
+        );
 
         return $this->render('wild/program.html.twig', [
             'program' => $program,
-            'seasons' => $season
+            'seasons' => $season,
+            'slug' => $title
         ]);
     }
 
@@ -144,11 +149,6 @@ class WildController extends AbstractController
      */
     public function showBySeason(int $id):Response
     {
-        /*$slug =  strripos($_SERVER['REQUEST_URI'], '/');
-        $slug = substr($_SERVER['REQUEST_URI'], -$slug + 1);
-        $slug = preg_replace(
-            '/-/',
-            ' ', ucwords(trim(strip_tags($slug)), "-"));*/
 
         $season = $this->getDoctrine()
                         ->getRepository(Saison::class)

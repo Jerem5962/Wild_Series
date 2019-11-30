@@ -7,7 +7,7 @@
             <p class="col-4 text-center m-auto pt-3 color-whrite">Résumé: {{ program.summary }}</p>
             <ul class="text-center mt-4">
                 {% for saison in seasons %}
-                <li class="text-decoration-none list-unstyled text-center"><a class="color-yell" href="http://localhost:8000/wild/program/walking-dead/{{ saison.id }}">saison {{ saison.num }}</a></li>
+                <li class="text-decoration-none list-unstyled text-center"><a class="color-yell" href="/wild/program/{{ slug }}/{{ saison.id }}">saison {{ saison.num }}</a></li>
                 {% endfor %}
             </ul>
         </div>
