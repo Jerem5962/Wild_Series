@@ -24,3 +24,14 @@ $colors:(
 .color-whrite {
     color: white;
 }
+
+.hoverYell  {
+    color: yellow;
+}
+
+.hoverYell:hover {
+    background-color: yellow;
+    text-decoration: none;
+    color: red;
+    font-size: 25px;
+}

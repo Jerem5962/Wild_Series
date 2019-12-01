@@ -6,9 +6,7 @@ use App\Entity\Category;
 use App\Entity\Episode;
 use App\Entity\Program;
 use App\Entity\Saison;
-use App\Repository\CategoryRepository;
-use App\Repository\ProgramRepository;
-use App\Repository\SaisonRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -156,11 +154,42 @@ class WildController extends AbstractController
         $episodes = $season->getEpisodes();
         $program = $season->getProgram();
 
+        $title_program = preg_replace(
+            '/ /',
+            '-', strtolower($program->getTitle())
+        );
+
 
         return $this->render('wild/season.html.twig', [
             'program' => $program,
             'episodes' => $episodes,
-            'season' => $season
+            'season' => $season,
+            'title' => $title_program
+        ]);
+    }
+
+    /**
+     * @Route ("/wild/{episode}")
+     * @ParamConverter("episode" , class="App\Entity\Episode", options={"id"="episode"})
+     * @param Episode $episode
+     * @return Response
+     */
+    public function showEpisode(Episode $episode): Response
+    {
+        $saison = $episode->getSaison();
+        $program = $episode->getProgram();
+        $title_program = preg_replace(
+            '/ /',
+            '-', strtolower($program->getTitle())
+        );
+        $saison_id = $saison->getId();
+
+        return $this->render('wild/episode.html.twig', [
+            "episode" => $episode,
+            "saison" => $saison,
+            "program" => $program,
+            "title" => $title_program,
+            "id" => $saison_id
         ]);
     }
 }
