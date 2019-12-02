@@ -6,6 +6,8 @@ use App\Entity\Category;
 use App\Entity\Episode;
 use App\Entity\Program;
 use App\Entity\Saison;
+use App\Form\CategoryType;
+use App\Form\ProgramSearchType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,9 +30,25 @@ class WildController extends AbstractController
                 'No program found in program\'s table.'
             );
         }
+
+        $form = $this->createForm(
+            ProgramSearchType::class,
+            null,
+            ['method' => Request::METHOD_GET]
+        );
+
+        $category = new Category();
+        $formCategory = $this->createForm(
+            CategoryType::class,
+            $category
+            );
+
         return $this->render(
             'wild/index.html.twig', [
-            'programs' => $programs,]
+            'programs' => $programs,
+            'form' => $form->createView(),
+            'form_category' => $formCategory->createView()
+            ]
         );
     }
 
@@ -65,6 +83,36 @@ class WildController extends AbstractController
             'program' => $program,
             'slug'  => $slug,
         ]);
+    }
+
+    /**
+     * @Route("/wild/category", name="add_category")
+     * @return Response
+     */
+    public function addCategory(Request $request): Response
+    {
+        $category = new Category();
+
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $category = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            //make migration (just like)
+            $entityManager->persist($category);
+            //migration migrate
+            $entityManager->flush();
+
+            $this->redirectToRoute('wild_index');
+
+        }
+
+        return $this->render('wild/add_category.html.twig', [
+            'form' => $form->createView()
+        ]);
+
     }
 
     /**
