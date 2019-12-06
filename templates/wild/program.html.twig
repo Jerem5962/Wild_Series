@@ -1,13 +1,24 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<h1 class="color-yell text-uppercase text-center">{{ program.title }}</h1>
+
     <div class="row">
-        <div class="col-12 text-center">
+        <div class="col-10 text-center">
+            <h1 class="color-yell text-uppercase text-center">{{ program.title }}</h1>
             <img src="{{ program.poster }}" alt="">
             <p class="col-4 text-center m-auto pt-3 color-whrite">Résumé: {{ program.summary }}</p>
             <ul class="text-center mt-4">
                 {% for saison in seasons %}
                 <li class="text-decoration-none list-unstyled text-center"><a class="color-yell" href="/wild/program/{{ slug }}/{{ saison.id }}">saison {{ saison.num }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-2">
+        <strong class="color-yell">Acteur :</strong>
+            <ul>
+                {% for actor in program.actors %}
+                    <li class="list-unstyled"><a class="color-whrite " href="/wild/actor/{{actor.id}}">{{ actor.name }}</a></li>
+                {% else %}
+                    <li class="color-whrite">Aucun acteur pour cette série</li>
                 {% endfor %}
             </ul>
         </div>

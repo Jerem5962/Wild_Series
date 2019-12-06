@@ -49,10 +49,16 @@ class Program
      */
     private $saisons;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Actor", mappedBy="programs")
+     */
+    private $actors;
+
     public function __construct()
     {
         $this->episodes = new ArrayCollection();
         $this->saisons = new ArrayCollection();
+        $this->actors = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -165,6 +171,34 @@ class Program
             if ($saison->getProgram() === $this) {
                 $saison->setProgram(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Actor[]
+     */
+    public function getActors(): Collection
+    {
+        return $this->actors;
+    }
+
+    public function addActor(Actor $actor): self
+    {
+        if (!$this->actors->contains($actor)) {
+            $this->actors[] = $actor;
+            $actor->addProgram($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActor(Actor $actor): self
+    {
+        if ($this->actors->contains($actor)) {
+            $this->actors->removeElement($actor);
+            $actor->removeProgram($this);
         }
 
         return $this;

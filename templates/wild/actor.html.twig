@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="color-yell">L'acteur '{{ actors.name }}'</h1>
+    <p class="color-whrite">Vous pouvez le retrouver dans les séries suivantes:</p>
+    <ul>
+    {% for program in actors.programs %}
+        <a href="{{path('program', {'slug':program.title | lower | replace({' ': '-'})})}}">
+            <p class="color-yell">{{ program.title }}</p>
+        </a>
+    {% endfor %}
+    </ul>
+{% endblock %}

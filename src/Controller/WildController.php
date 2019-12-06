@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Actor;
 use App\Entity\Category;
 use App\Entity\Episode;
 use App\Entity\Program;
@@ -176,6 +177,7 @@ class WildController extends AbstractController
             ->getRepository(Saison::class)
             ->findBy(['program' => $program_id]);
 
+
         $title = preg_replace(
             '/ /',
             '-', strtolower($slug)
@@ -240,4 +242,20 @@ class WildController extends AbstractController
             "id" => $saison_id
         ]);
     }
+
+    /**
+     * @Route("/wild/actor/{actor}", name="actor")
+     * @ParamConverter("actor" , class="App\Entity\Actor", options={"id"="actor"})
+     * @param Actor $actor
+     * @return Response
+     */
+    public function showActor(Actor $actor): Response
+    {
+
+        return $this->render('/wild/actor.html.twig', [
+            "actors" => $actor
+            ]);
+    }
+
+
 }
