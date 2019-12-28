@@ -2,10 +2,14 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}Wild Séries{% endblock %}</title>
+        <link rel="stylesheet" href="build/app.css">
+        {% block stylesheets %}{{ encore_entry_link_tags('app') }}{% endblock %}
     </head>
-    <body>
+    <body class="bg-primaire">
+        {% block header %}
+        {% include 'nav_bar.html.twig' %}
+        {% endblock %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>

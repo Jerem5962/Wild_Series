@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+        <div class="row">
+            <div class="col-6">
+                <img src="{{ program.poster }}" alt="">
+            </div>
+            <div class="col-3 text-center">
+                <h1 class="color-yell border-bottom">{{ program.title }}</h1>
+                <h2 class="color-yell border-bottom">saison {{ season.num }}</h2>
+                {% for episode in episodes %}
+                    {% if program.id == episode.program.id %}
+                    <p class="color-whrite">{{ episode.title }}</p>
+                    {% endif %}
+                {% endfor   %}
+            </div>
+            <div class="col-3">
+                <a class="color-whrite" href="{{ path('program', {"slug":title}) }}">Retour</a>
+            </div>
+        </div>
+{% endblock %}

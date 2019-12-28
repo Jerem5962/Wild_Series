@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Program index{% endblock %}
+
+{% block body %}
+    <h1 class="color-yell">Program index</h1>
+
+    <table class="table color-whrite">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th class="color-yell">Title</th>
+                <th>Summary</th>
+                <th class="color-yell">Poster</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for program in programs %}
+            <tr>
+                <td>{{ program.id }}</td>
+                <td class="color-yell">{{ program.title }}</td>
+                <td>{{ program.summary }}</td>
+                <td class="color-yell">{{ program.poster }}</td>
+                <td>
+                    <a href="{{ path('program_show', {'id': program.id}) }}">show</a>
+                    <a href="{{ path('program_edit', {'id': program.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('program_new') }}">Create new</a>
+{% endblock %}

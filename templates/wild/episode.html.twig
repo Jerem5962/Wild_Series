@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1 class="color-yell"><span class="color-whrite">Episode </span>" {{ episode.title }} "</h1>
+    <p class="color-whrite"> résumé de l'épisode: {{ episode.summary }}</p>
+    <h3 class="color-whrite"> Série: "{{ program.title }}" saison {{ saison.num }}</h3>
+    <p class="color-whrite col-3">resumé de la série: {{ program.summary }}</p>
+    <a class="col-3 hoverYell p-3" href="{{ path('program', {"slug":title}) }}">Voir la série</a>
+    <a class="hoverYell col-3 p-3 " href="/wild/program/{{ title }}/{{ id }}">Voir la saison</a>
+{% endblock %}

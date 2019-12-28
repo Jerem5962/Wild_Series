@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+{% for movie in movies %}
+    <div class="mt-4 text-center">
+        <p class="color-whrite d-inline">id: {{ movie.id }}.</p>
+        <h3 class="color-yell d-inline">{{ movie.title }}</h3>
+        <p class="color-whrite">contenu: {{ movie.summary }}.</p>
+    </div>
+{% endfor %}
+{% endblock %}

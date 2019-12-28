@@ -1,0 +1,53 @@
+@import '~bootstrap/scss/bootstrap';
+
+body {
+    background-color: black;
+}
+
+$primary: darken(#428bca, 20%);
+$theme-colors:(
+        "primaire": black,
+        "yell": yellow
+);
+
+$colors:(
+        "primaire": black,
+        "yell": yellow,
+        "txt": white
+);
+
+
+.color-yell {
+    color: yellow;
+}
+
+.color-whrite {
+    color: white;
+}
+
+.hoverYell  {
+    color: yellow;
+}
+
+.hoverYell:hover {
+    background-color: yellow;
+    text-decoration: none;
+    color: red;
+    font-size: 25px;
+}
+
+#category label {
+    color: white;
+}
+
+#program {
+    color: white;
+}
+
+#saison {
+    color: white;
+}
+
+#episode {
+    color: white;
+}

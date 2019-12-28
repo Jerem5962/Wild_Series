@@ -1,10 +1,22 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-</head>
-<body>
-<h1>{{ website }} index</h1>
-</body>
-</html>
+{% extends 'base.html.twig' %}
+{% block title %} All programs {% endblock %}
+{% block body %}
+    <h1 class="text-center color-yell mt-4">Toutes les séries de la table program : </h1>
+    {% for program in programs %}
+    <div class="mt-5">
+        <h2 class="color-yell">{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2>
+        <p class="color-whrite">{{ program.summary }}</p>
+    </div>
+    {% else %}
+    Aucune série trouvée
+    {% endfor %}
+
+    {{ form_start(form) }}
+    {{ form_row(form.searchField) }}
+    <button type="submit" name="btnSearch">Rechercher</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_index') }}">
+        Retour à la page d'acceuil
+    </a>
+{% endblock %}
