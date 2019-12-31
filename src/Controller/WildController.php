@@ -9,6 +9,7 @@ use App\Entity\Program;
 use App\Entity\Saison;
 use App\Form\CategoryType;
 use App\Form\ProgramSearchType;
+use App\Form\ProgramType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -143,12 +144,20 @@ class WildController extends AbstractController
         ]);
     }
 
+    /**
+     * @return Response
+     * @Route("/program/add", name="add_program")
+     */
     public function new(): Response
     {
         // traitement d'un formulaire par exemple
+        $program = new Program();
+        $form = $this->createForm(ProgramType::class, $program);
+        $form->handleRequest();
 
-        // redirection vers la page 'wild_show', correspondant à l'url wild/show/5
-        return $this->redirectToRoute('wild_show', ['page' => 5]);
+        return $this->render('/program/new.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     /**
